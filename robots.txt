@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://my-tools-4fh.pages.dev/sitemap.xml

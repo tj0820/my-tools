@@ -6,6 +6,29 @@
   <title>在线字数统计工具 - 统计文章字数、字符数、段落数</title>
   <meta name="description" content="免费在线字数统计工具，实时统计中文字数、英文单词数、字符数、段落数、行数，支持阅读时间和 speaking 时间估算，适合学生、编辑、自媒体使用。">
   <meta name="keywords" content="字数统计,在线字数统计,文章字数,字符数统计,字数计算器,word count">
+  <link rel="canonical" href="https://my-tools-4fh.pages.dev/word-counter.html">
+  <meta property="og:title" content="在线字数统计工具 - 统计文章字数、字符数、段落数">
+  <meta property="og:description" content="免费在线字数统计工具，实时统计中文字数、英文单词数、字符数、段落数、行数，支持阅读时间估算。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://my-tools-4fh.pages.dev/word-counter.html">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="在线工具集">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="在线字数统计工具 - 统计文章字数、字符数、段落数">
+  <meta name="twitter:description" content="免费在线字数统计工具，实时统计中英文字数、字符数、段落数。">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "在线字数统计工具",
+    "url": "https://my-tools-4fh.pages.dev/word-counter.html",
+    "description": "免费在线字数统计工具，实时统计中文字数、英文单词数、字符数、段落数、行数。",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "publisher": { "@type": "Organization", "name": "在线工具集" }
+  }
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -169,10 +192,24 @@
       color: rgba(0,0,0,0.3);
       font-size: 12px;
     }
+    .site-nav { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .site-nav a { color: rgba(0,0,0,0.45); text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 20px; background: rgba(0,0,0,0.06); transition: all 0.2s; }
+    .site-nav a:hover, .site-nav a.active { color: #333; background: rgba(0,0,0,0.12); }
+    .site-footer { text-align: center; padding: 24px 0; color: rgba(0,0,0,0.3); font-size: 12px; }
+    .site-footer a { color: rgba(0,0,0,0.45); text-decoration: none; margin: 0 8px; }
+    .site-footer a:hover { color: #333; }
   </style>
 </head>
 <body>
   <div class="container">
+    <nav class="site-nav">
+      <a href="index.html">首页</a>
+      <a href="qr-generator.html">二维码生成</a>
+      <a href="json-formatter.html">JSON格式化</a>
+      <a href="word-counter.html" class="active">字数统计</a>
+      <a href="password-generator.html">密码生成</a>
+      <a href="base64-tool.html">Base64</a>
+    </nav>
     <div class="header">
       <h1>在线字数统计工具</h1>
       <p>实时统计字数、字符数、段落数，支持中英文混合统计</p>
@@ -251,7 +288,15 @@
       <button class="btn-clear" onclick="clearText()">清空</button>
     </div>
 
-    <div class="footer">纯浏览器端处理 &middot; 文本不会上传到服务器 &middot; 安全私密</div>
+    <footer class="site-footer">
+      <a href="index.html">首页</a> |
+      <a href="qr-generator.html">二维码</a> |
+      <a href="json-formatter.html">JSON</a> |
+      <a href="word-counter.html">字数统计</a> |
+      <a href="password-generator.html">密码</a> |
+      <a href="base64-tool.html">Base64</a>
+      <p style="margin-top:8px">纯浏览器端处理 · 文本不会上传到服务器 · 安全私密</p>
+    </footer>
   </div>
 
   <script>

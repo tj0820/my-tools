@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线二维码生成器 - 免费生成彩色二维码</title>
+  <meta name="description" content="免费在线二维码生成器，支持自定义颜色、尺寸，输入文字或链接即可生成高清二维码图片，一键下载PNG格式。">
+  <meta name="keywords" content="二维码生成器,在线二维码,免费二维码,二维码制作,彩色二维码">
+  <link rel="canonical" href="https://my-tools-4fh.pages.dev/qr-generator.html">
+  <meta property="og:title" content="在线二维码生成器 - 免费生成彩色二维码">
+  <meta property="og:description" content="免费在线二维码生成器，支持自定义颜色、尺寸，输入文字或链接即可生成高清二维码图片，一键下载PNG格式。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://my-tools-4fh.pages.dev/qr-generator.html">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="在线工具集">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="在线二维码生成器 - 免费生成彩色二维码">
+  <meta name="twitter:description" content="免费在线二维码生成器，支持自定义颜色、尺寸，一键下载PNG。">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "在线二维码生成器",
+    "url": "https://my-tools-4fh.pages.dev/qr-generator.html",
+    "description": "免费在线二维码生成器，支持自定义颜色、尺寸，输入文字或链接即可生成高清二维码图片。",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "publisher": { "@type": "Organization", "name": "在线工具集" }
+  }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    }
+    
+    .floating-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .pulse-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3px solid rgba(99, 102, 241, 0.3);
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+    
+    .input-focus:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .qr-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 300px;
+      min-width: 300px;
+    }
+    
+    .qr-placeholder {
+      color: #9ca3af;
+      font-size: 14px;
+      text-align: center;
+      padding: 40px;
+    }
+    
+    .color-input {
+      width: 40px;
+      height: 40px;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #6366f1;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #6366f1;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .slider {
+      appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: #e5e7eb;
+      outline: none;
+    }
+    
+    .slider::-webkit-slider-runnable-track {
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(to right, #6366f1 0%, #a855f7 100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div class="glass-effect rounded-3xl p-8 w-full max-w-4xl mx-auto shadow-xl">
+    <nav style="display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;">
+      <a href="index.html" style="color:rgba(107,114,128,0.8);text-decoration:none;font-size:13px;padding:6px 14px;border-radius:20px;background:rgba(99,102,241,0.08);transition:all 0.2s;">首页</a>
+      <a href="qr-generator.html" style="color:#fff;text-decoration:none;font-size:13px;padding:6px 14px;border-radius:20px;background:rgba(99,102,241,0.2);font-weight:600;">二维码生成</a>
+      <a href="json-formatter.html" style="color:rgba(107,114,128,0.8);text-decoration:none;font-size:13px;padding:6px 14px;border-radius:20px;background:rgba(99,102,241,0.08);">JSON格式化</a>
+      <a href="word-counter.html" style="color:rgba(107,114,128,0.8);text-decoration:none;font-size:13px;padding:6px 14px;border-radius:20px;background:rgba(99,102,241,0.08);">字数统计</a>
+      <a href="password-generator.html" style="color:rgba(107,114,128,0.8);text-decoration:none;font-size:13px;padding:6px 14px;border-radius:20px;background:rgba(99,102,241,0.08);">密码生成</a>
+      <a href="base64-tool.html" style="color:rgba(107,114,128,0.8);text-decoration:none;font-size:13px;padding:6px 14px;border-radius:20px;background:rgba(99,102,241,0.08);">Base64</a>
+    </nav>
+    <div class="text-center mb-8">
+      <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+        在线二维码生成器
+      </h1>
+      <p class="text-gray-600 text-lg">轻松创建个性化的二维码，支持自定义颜色和尺寸</p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- 左侧控制面板 -->
+      <div class="space-y-6">
+        <div class="bg-white/50 rounded-2xl p-6 glass-effect">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+            <span class="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
+            生成设置
+          </h2>
+          
+          <div class="space-y-5">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">输入内容</label>
+              <textarea 
+                id="qrText" 
+                placeholder="请输入网址或文字..." 
+                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 input-focus transition-colors resize-none"
+                rows="3"
+              ></textarea>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">前景色</label>
+                <input type="color" id="fgColor" value="#000000" class="color-input w-full">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">背景色</label>
+                <input type="color" id="bgColor" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                尺寸: <span id="sizeValue" class="text-indigo-600 font-medium">200</span>px
+              </label>
+              <input 
+                type="range" 
+                id="qrSize" 
+                min="100" 
+                max="500" 
+                value="200" 
+                class="w-full slider"
+              >
+            </div>
+            
+            <button 
+              id="generateBtn" 
+              class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold btn-hover transition-all duration-300 hover:from-indigo-700 hover:to-purple-700"
+            >
+              生成二维码
+            </button>
+          </div>
+        </div>
+        
+        <div class="bg-white/50 rounded-2xl p-6 glass-effect">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+            下载选项
+          </h2>
+          <button 
+            id="downloadBtn" 
+            class="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white py-3 px-6 rounded-xl font-semibold btn-hover transition-all duration-300 hover:from-green-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            下载 PNG
+          </button>
+        </div>
+      </div>
+      
+      <!-- 右侧预览区域 -->
+      <div class="flex flex-col items-center justify-center">
+        <div class="qr-container bg-white rounded-2xl p-6 glass-effect shadow-lg floating-animation">
+          <div id="qrcode" class="flex items-center justify-center">
+            <div class="qr-placeholder">
+              <div class="text-gray-400 mb-2" style="font-size: 48px;">&#128241;</div>
+              <div>输入内容并点击生成</div>
+              <div class="text-sm">二维码将在此显示</div>
+            </div>
+          </div>
+          <div class="pulse-ring" style="display: none;"></div>
+        </div>
+        
+        <div class="mt-6 text-center">
+          <p class="text-gray-600 text-sm">
+            客户端生成 · 无需上传 · 完全私密
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-8 text-center">
+      <div class="inline-flex items-center space-x-4 text-sm text-gray-500">
+        <span>现代化设计</span>
+        <span>·</span>
+        <span>响应式布局</span>
+        <span>·</span>
+        <span>数据安全</span>
+      </div>
+    </div>
+    <div style="text-align:center;padding:20px 0 0;color:rgba(107,114,128,0.6);font-size:12px;">
+      <a href="index.html" style="color:rgba(107,114,128,0.8);text-decoration:none;margin:0 8px;">首页</a> |
+      <a href="qr-generator.html" style="color:rgba(107,114,128,0.8);text-decoration:none;margin:0 8px;">二维码</a> |
+      <a href="json-formatter.html" style="color:rgba(107,114,128,0.8);text-decoration:none;margin:0 8px;">JSON</a> |
+      <a href="word-counter.html" style="color:rgba(107,114,128,0.8);text-decoration:none;margin:0 8px;">字数统计</a> |
+      <a href="password-generator.html" style="color:rgba(107,114,128,0.8);text-decoration:none;margin:0 8px;">密码</a> |
+      <a href="base64-tool.html" style="color:rgba(107,114,128,0.8);text-decoration:none;margin:0 8px;">Base64</a>
+      <p style="margin-top:8px;">纯浏览器端生成 · 数据不会上传到服务器 · 安全私密</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const qrText = document.getElementById('qrText');
+      const fgColor = document.getElementById('fgColor');
+      const bgColor = document.getElementById('bgColor');
+      const qrSize = document.getElementById('qrSize');
+      const sizeValue = document.getElementById('sizeValue');
+      const generateBtn = document.getElementById('generateBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const qrcodeDiv = document.getElementById('qrcode');
+      const pulseRing = document.querySelector('.pulse-ring');
+      
+      let currentQR = null;
+      
+      // 更新尺寸显示
+      qrSize.addEventListener('input', function() {
+        sizeValue.textContent = this.value;
+      });
+      
+      // 生成二维码
+      generateBtn.addEventListener('click', function() {
+        const text = qrText.value.trim();
+        if (!text) {
+          alert('请输入要生成二维码的内容');
+          return;
+        }
+        
+        // 显示脉冲动画
+        pulseRing.style.display = 'block';
+        setTimeout(() => {
+          pulseRing.style.display = 'none';
+        }, 2000);
+        
+        // 清除之前的二维码
+        if (currentQR) {
+          qrcodeDiv.innerHTML = '';
+        }
+        
+        // 创建新的二维码
+        currentQR = new QRCode(qrcodeDiv, {
+          text: text,
+          width: parseInt(qrSize.value),
+          height: parseInt(qrSize.value),
+          colorDark: fgColor.value,
+          colorLight: bgColor.value,
+          correctLevel: QRCode.CorrectLevel.H
+        });
+        
+        // 启用下载按钮
+        downloadBtn.disabled = false;
+      });
+      
+      // 下载二维码
+      downloadBtn.addEventListener('click', function() {
+        if (!currentQR) return;
+        
+        const canvas = qrcodeDiv.querySelector('canvas');
+        if (canvas) {
+          const link = document.createElement('a');
+          link.download = 'qrcode.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        }
+      });
+      
+      // 示例内容
+      qrText.value = 'https://www.example.com';
+    });
+  </script>
+</body>
+</html>
